@@ -1,0 +1,197 @@
+@import "tailwindcss";
+
+@theme {
+  --color-ivory-50: #FDFBF7;
+  --color-ivory-100: #FAF7F2;
+  --color-ivory-200: #F3ECE1;
+  --color-ivory-300: #E8DEC8;
+  --color-ivory-400: #D9CCAE;
+  --color-ivory-500: #C7B590;
+
+  --color-champagne-50: #FCF9EE;
+  --color-champagne-100: #F7F1D8;
+  --color-champagne-200: #EFE2B0;
+  --color-champagne-300: #E6D084;
+  --color-champagne-400: #DFC063;
+  --color-champagne-500: #D4AF37;
+  --color-champagne-600: #B89327;
+  --color-champagne-700: #93741E;
+  --color-champagne-800: #6F5617;
+  --color-champagne-900: #4B3910;
+
+  --color-burgundy-50: #FBF2F4;
+  --color-burgundy-100: #F5E0E4;
+  --color-burgundy-200: #ECC4CB;
+  --color-burgundy-300: #DE9DA7;
+  --color-burgundy-400: #C96B7B;
+  --color-burgundy-500: #A8384E;
+  --color-burgundy-600: #882438;
+  --color-burgundy-700: #6B1728;
+  --color-burgundy-800: #520F1D;
+  --color-burgundy-900: #3D0A14;
+  --color-burgundy-950: #26050B;
+
+  --color-charcoal-50: #F6F6F6;
+  --color-charcoal-100: #E7E7E7;
+  --color-charcoal-200: #D1D1D1;
+  --color-charcoal-300: #B0B0B0;
+  --color-charcoal-400: #888888;
+  --color-charcoal-500: #6D6D6D;
+  --color-charcoal-600: #525252;
+  --color-charcoal-700: #2C2C2C;
+  --color-charcoal-800: #1A1A1A;
+  --color-charcoal-900: #121212;
+
+  --font-serif: var(--font-serif), "Cormorant Garamond", Georgia, serif;
+  --font-sans: var(--font-sans), "Montserrat", system-ui, -apple-system, sans-serif;
+
+  /* Aurelia Haute Joaillerie Exact Brand Tokens */
+  --color-aurelia-ivory: #FBF8F2;
+  --color-aurelia-burgundy: #28080D;
+  --color-aurelia-gold: #C9A227;
+  --color-aurelia-charcoal: #302024;
+  --color-aurelia-champagne: #E8DDC6;
+}
+
+:root {
+  --background: #FAF7F2;
+  --foreground: #1A1A1A;
+  --primary-gold: #D4AF37;
+  --primary-burgundy: #520F1D;
+}
+
+body {
+  background-color: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans);
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+/* Custom Luxury Gradients & Shimmers */
+.bg-gold-gradient {
+  background: linear-gradient(135deg, #DFBF63 0%, #D4AF37 50%, #93741E 100%);
+}
+
+.bg-gold-gradient-soft {
+  background: linear-gradient(135deg, #FCF9EE 0%, #F7F1D8 50%, #EFE2B0 100%);
+}
+
+.bg-burgundy-gradient {
+  background: linear-gradient(145deg, #520F1D 0%, #3D0A14 60%, #26050B 100%);
+}
+
+.bg-velvet-dark {
+  background: radial-gradient(circle at 50% 0%, #3D0A14 0%, #121212 100%);
+}
+
+.text-gold-gradient {
+  background: linear-gradient(135deg, #E6D084 0%, #D4AF37 50%, #B89327 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.text-gold-bright {
+  background: linear-gradient(135deg, #FCF9EE 0%, #E6D084 60%, #D4AF37 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Luxury Border & Accents */
+.border-gold-subtle {
+  border: 1px solid rgba(212, 175, 55, 0.25);
+}
+
+.border-gold-glow {
+  border: 1px solid rgba(212, 175, 55, 0.6);
+  box-shadow: 0 0 15px rgba(212, 175, 55, 0.2);
+}
+
+/* Shimmer Animation for Luxury Loading and Accents */
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+.animate-gold-shimmer {
+  background: linear-gradient(
+    90deg,
+    rgba(212, 175, 55, 0.05) 0%,
+    rgba(212, 175, 55, 0.25) 50%,
+    rgba(212, 175, 55, 0.05) 100%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 2.5s infinite linear;
+}
+
+/* Glassmorphism Luxury Overlay */
+.glass-ivory {
+  background: rgba(250, 247, 242, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(212, 175, 55, 0.15);
+}
+
+.glass-burgundy {
+  background: rgba(38, 5, 11, 0.88);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+}
+
+/* Smooth Scrolling & Custom Scrollbar */
+html {
+  scroll-behavior: smooth;
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #FAF7F2;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #DFC063;
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #B89327;
+}
+
+/* Entrance Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Respect Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
