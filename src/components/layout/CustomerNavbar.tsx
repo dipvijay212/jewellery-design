@@ -86,8 +86,9 @@ const JEWELLERY_MENU: MegaMenuConfig = {
         },
         {
           name: 'Bridal Jewellery',
-          href: '/shop?category=bridal-sets',
+          href: '/shop?category=bridal-sets&section=bridal',
           description: 'Imperial sovereign trousseau suites',
+          badge: 'Salon',
         },
         {
           name: 'New Arrivals',
@@ -117,17 +118,17 @@ const BRIDAL_MENU: MegaMenuConfig = {
       items: [
         {
           name: 'Bridal Sets',
-          href: '/shop?category=bridal-sets',
+          href: '/shop?category=bridal-sets&section=bridal',
           description: 'Complete suites with coordinated neckpieces & earrings',
         },
         {
           name: 'Kundan',
-          href: '/shop?search=Kundan',
+          href: '/shop?search=Kundan&section=bridal',
           description: 'Handcrafted glass cabochons in 22K gold foil setting',
         },
         {
           name: 'Polki-Inspired Jewellery',
-          href: '/shop?search=Polki',
+          href: '/shop?search=Polki&section=bridal',
           description: 'Uncut gemstone majesty with reverse meenakari',
         },
       ],
@@ -137,12 +138,12 @@ const BRIDAL_MENU: MegaMenuConfig = {
       items: [
         {
           name: 'Bridal Chokers',
-          href: '/shop?search=Choker',
+          href: '/shop?search=Choker&section=bridal',
           description: 'Regal contoured gulbandhs & seed pearl collars',
         },
         {
           name: 'Wedding Accessories',
-          href: '/shop?category=maang-tikka-accessories',
+          href: '/shop?category=maang-tikka-accessories&section=bridal',
           description: 'Articulated maang tikkas, passas & haathphools',
         },
         {
@@ -284,14 +285,52 @@ export function CustomerNavbar() {
   };
 
   // Determine active nav indicators
+  const currentSection = searchParams.get('section');
+  const currentCategory = searchParams.get('category');
+  const currentOccasion = searchParams.get('occasion');
+  const currentCollection = searchParams.get('collection');
+  const currentSearch = searchParams.get('search') || '';
   const isSortNewest = searchParams.get('sort') === 'newest';
-  const isNewArrivalsActive = pathname === '/shop' && isSortNewest;
+
+  // Determine if current view belongs to Bridal
+  const isBridalRouteOrFilter =
+    pathname.startsWith('/bridal') ||
+    currentSection === 'bridal' ||
+    currentCategory === 'bridal' ||
+    currentCategory === 'bridal-sets' ||
+    currentOccasion === 'Bridal & Wedding' ||
+    (pathname === '/shop' && currentSearch.toLowerCase().includes('bridal'));
+
+  // Determine if current view belongs to Collections
+  const isCollectionsRouteOrFilter =
+    pathname.startsWith('/collections') ||
+    Boolean(currentCollection);
+
+  // Determine if current view belongs to New Arrivals
+  const isNewArrivalsRouteOrFilter =
+    pathname === '/shop' && isSortNewest && !isBridalRouteOrFilter && !isCollectionsRouteOrFilter;
+
+  // Active indicators (mutually exclusive)
+  const isBridalActive =
+    activeMegaMenu === 'bridal' ||
+    (activeMegaMenu === null && isBridalRouteOrFilter);
+
+  const isCollectionsActive =
+    activeMegaMenu === null && isCollectionsRouteOrFilter;
+
+  const isNewArrivalsActive =
+    activeMegaMenu === null && isNewArrivalsRouteOrFilter;
+
+  const isOurStoryActive =
+    activeMegaMenu === null && pathname.startsWith('/about');
+
   const isJewelleryActive =
     activeMegaMenu === 'jewellery' ||
-    (pathname === '/shop' && !isSortNewest && !pathname.startsWith('/bridal'));
-  const isBridalActive = activeMegaMenu === 'bridal' || pathname.startsWith('/bridal');
-  const isCollectionsActive = pathname.startsWith('/collections');
-  const isOurStoryActive = pathname.startsWith('/about');
+    (activeMegaMenu === null &&
+      pathname.startsWith('/shop') &&
+      !isBridalRouteOrFilter &&
+      !isCollectionsRouteOrFilter &&
+      !isNewArrivalsRouteOrFilter);
 
   return (
     <header
@@ -406,15 +445,13 @@ export function CustomerNavbar() {
                 onMouseEnter={() => handleDropdownOpen('jewellery')}
                 onMouseLeave={handleDropdownCloseScheduled}
               >
-                <button
-                  type="button"
+                <Link
+                  href="/shop"
                   id="nav-jewellery-btn"
                   aria-haspopup="true"
                   aria-expanded={activeMegaMenu === 'jewellery'}
                   aria-controls="jewellery-mega-menu"
-                  onClick={() =>
-                    setActiveMegaMenu((prev) => (prev === 'jewellery' ? null : 'jewellery'))
-                  }
+                  onClick={() => setActiveMegaMenu(null)}
                   className={cn(
                     'relative py-2 text-[12px] uppercase tracking-[0.2em] font-medium transition-colors duration-200 flex items-center gap-1.5 focus:outline-none',
                     isJewelleryActive
@@ -436,7 +473,7 @@ export function CustomerNavbar() {
                       transition={{ duration: 0.2 }}
                     />
                   )}
-                </button>
+                </Link>
               </div>
 
               {/* 3. Bridal Mega Menu Trigger */}
@@ -445,15 +482,13 @@ export function CustomerNavbar() {
                 onMouseEnter={() => handleDropdownOpen('bridal')}
                 onMouseLeave={handleDropdownCloseScheduled}
               >
-                <button
-                  type="button"
+                <Link
+                  href="/bridal"
                   id="nav-bridal-btn"
                   aria-haspopup="true"
                   aria-expanded={activeMegaMenu === 'bridal'}
                   aria-controls="bridal-mega-menu"
-                  onClick={() =>
-                    setActiveMegaMenu((prev) => (prev === 'bridal' ? null : 'bridal'))
-                  }
+                  onClick={() => setActiveMegaMenu(null)}
                   className={cn(
                     'relative py-2 text-[12px] uppercase tracking-[0.2em] font-medium transition-colors duration-200 flex items-center gap-1.5 focus:outline-none',
                     isBridalActive
@@ -475,7 +510,7 @@ export function CustomerNavbar() {
                       transition={{ duration: 0.2 }}
                     />
                   )}
-                </button>
+                </Link>
               </div>
 
               {/* 4. Collections */}
@@ -660,6 +695,21 @@ export function CustomerNavbar() {
                               </ul>
                             </div>
                           ))}
+
+                          {/* Department Quick Banner Link */}
+                          <div className="col-span-2 pt-3 border-t border-[#C9A227]/20 flex items-center justify-between">
+                            <Link
+                              href={activeMegaMenu === 'jewellery' ? '/shop' : '/bridal'}
+                              onClick={() => setActiveMegaMenu(null)}
+                              className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.16em] font-semibold text-[#DFC063] hover:text-[#FBF8F2] transition-colors"
+                            >
+                              <span>
+                                {activeMegaMenu === 'jewellery'
+                                  ? 'Explore The Full Jewellery Treasury (All 26 Creations) →'
+                                  : 'Explore The Full Trousseau Bridal Salon & Suites →'}
+                              </span>
+                            </Link>
+                          </div>
                         </div>
 
                         {/* Right Column: Editorial Featured Collection Showcase */}
@@ -723,6 +773,7 @@ export function CustomerNavbar() {
                   <Search className="w-5 h-5 text-[#C9A227]" />
                   <input
                     type="text"
+                    suppressHydrationWarning
                     placeholder="Search solitaire diamonds, polki, emeralds, 18k gold..."
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
@@ -736,6 +787,7 @@ export function CustomerNavbar() {
                   />
                   <button
                     type="button"
+                    suppressHydrationWarning
                     onClick={() => handleSearchSubmit(searchQuery)}
                     className="text-xs uppercase tracking-wider font-semibold text-[#C9A227] hover:text-[#DFC063] px-3 py-1 transition-colors"
                   >
@@ -787,6 +839,7 @@ export function CustomerNavbar() {
               <div className="relative mb-3">
                 <input
                   type="text"
+                  suppressHydrationWarning
                   placeholder="Search masterpieces..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}

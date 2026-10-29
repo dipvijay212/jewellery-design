@@ -28,6 +28,8 @@ export function ProductCard({
   const [addedRecently, setAddedRecently] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
   const [heartAnim, setHeartAnim] = useState(false);
+  const fallbackImg = 'https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?auto=format&fit=crop&w=900&q=80';
+  const [primaryImg, setPrimaryImg] = useState(product.images[0] || fallbackImg);
 
   const handleAddToCart = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -48,6 +50,14 @@ export function ProductCard({
 
   const hasSecondaryImage = product.images.length > 1;
   const isDark = variant === 'dark';
+
+  const productHref = `/shop/${product.slug}${
+    product.category === 'bridal' ||
+    product.category === 'bridal-sets' ||
+    product.occasion === 'Bridal & Wedding'
+      ? '?section=bridal'
+      : ''
+  }`;
 
   // Refined single luxury badge
   const getLuxuryBadge = () => {
@@ -118,15 +128,16 @@ export function ProductCard({
         )}
       >
         <Link
-          href={`/shop/${product.slug}`}
+          href={productHref}
           className="relative block w-full h-full focus:outline-none"
         >
           {/* Primary Image */}
           <Image
-            src={product.images[0]}
+            src={primaryImg}
             alt={product.name}
             fill
             sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+            onError={() => setPrimaryImg(fallbackImg)}
             className={cn(
               'object-cover object-center transition-all duration-700 ease-out will-change-transform group-hover:scale-106',
               hasSecondaryImage && isHovered ? 'opacity-0' : 'opacity-100'
@@ -169,6 +180,7 @@ export function ProductCard({
         {/* Wishlist Button: clean top-right talisman */}
         <motion.button
           type="button"
+          suppressHydrationWarning
           whileTap={{ scale: 0.85 }}
           onClick={handleToggleWishlist}
           aria-label={inWishlist ? 'Remove from wishlist' : 'Save to wishlist'}
@@ -215,7 +227,7 @@ export function ProductCard({
 
           {/* Product Name - allows 2 lines so full royal titles are never truncated */}
           <Link
-            href={`/shop/${product.slug}`}
+            href={productHref}
             className="focus:outline-none focus-visible:underline block"
           >
             <h3
@@ -272,6 +284,7 @@ export function ProductCard({
           {/* Luxury Jewel Clasp Action Pill */}
           <motion.button
             type="button"
+            suppressHydrationWarning
             disabled={product.stock === 0}
             whileTap={product.stock > 0 ? { scale: 0.95 } : undefined}
             onClick={handleAddToCart}

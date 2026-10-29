@@ -24,32 +24,45 @@ interface CatalogueViewProps {
   initialOccasion?: string;
   initialCollection?: string;
   initialSort?: string;
+  initialSection?: string;
 }
+
+const normalizeCategory = (cat?: string): string => {
+  if (!cat || cat === 'all') return 'all';
+  if (cat === 'bridal') return 'bridal-sets';
+  if (cat === 'necklaces') return 'necklace-sets';
+  if (cat === 'earrings') return 'earrings-jhumkas';
+  if (cat === 'bracelets' || cat === 'bangles') return 'bangles-bracelets';
+  return cat;
+};
 
 export function CatalogueView({
   initialProducts,
   initialCategory = 'all',
   initialSearch = '',
   initialOccasion = 'all',
+  initialCollection = 'all',
   initialSort = 'featured',
 }: CatalogueViewProps) {
   // Filter States
   const [searchQuery, setSearchQuery] = useState(initialSearch);
-  const [selectedCategory, setSelectedCategory] = useState<string>(initialCategory);
+  const [selectedCategory, setSelectedCategory] = useState<string>(normalizeCategory(initialCategory));
   const [selectedOccasion, setSelectedOccasion] = useState<string>(initialOccasion);
   const [selectedMaterial, setSelectedMaterial] = useState<string>('all');
   const [selectedPriceRange, setSelectedPriceRange] = useState<string>('all');
+  const [selectedCollection, setSelectedCollection] = useState<string>(initialCollection || 'all');
   const [sortBy, setSortBy] = useState<string>(initialSort || 'featured');
   const [mobileFilterOpen, setMobileFilterOpen] = useState(false);
   const [visibleCount, setVisibleCount] = useState(8);
 
   // Sync state whenever props change
   useEffect(() => {
-    setSelectedCategory(initialCategory);
+    setSelectedCategory(normalizeCategory(initialCategory));
     setSearchQuery(initialSearch);
     setSelectedOccasion(initialOccasion);
+    setSelectedCollection(initialCollection || 'all');
     if (initialSort) setSortBy(initialSort);
-  }, [initialCategory, initialSearch, initialOccasion, initialSort]);
+  }, [initialCategory, initialSearch, initialOccasion, initialCollection, initialSort]);
 
   const categories = [
     { label: 'All Creations', value: 'all' },
@@ -150,6 +163,10 @@ export function CatalogueView({
             p.occasion === 'Festive & Celebrations' ||
             p.occasion === 'Cocktail & Reception')
         ) return true;
+        if (
+          selectedCategory === 'high-jewellery' &&
+          (p.isFeatured || p.price >= 2000 || p.collection === 'Imperial Sovereign')
+        ) return true;
         return false;
       });
     }
@@ -157,6 +174,13 @@ export function CatalogueView({
     // Occasion
     if (selectedOccasion !== 'all') {
       result = result.filter((p) => p.occasion === selectedOccasion);
+    }
+
+    // Collection
+    if (selectedCollection !== 'all') {
+      result = result.filter(
+        (p) => p.collection && p.collection.toLowerCase() === selectedCollection.toLowerCase()
+      );
     }
 
     // Material
@@ -209,6 +233,7 @@ export function CatalogueView({
     searchQuery,
     selectedCategory,
     selectedOccasion,
+    selectedCollection,
     selectedMaterial,
     selectedPriceRange,
     sortBy,
@@ -247,6 +272,14 @@ export function CatalogueView({
       });
     }
 
+    if (selectedCollection !== 'all') {
+      chips.push({
+        id: 'collection',
+        label: `Collection: ${selectedCollection}`,
+        onRemove: () => setSelectedCollection('all'),
+      });
+    }
+
     if (selectedMaterial !== 'all') {
       const match = materials.find((m) => m.value === selectedMaterial);
       chips.push({
@@ -266,12 +299,13 @@ export function CatalogueView({
     }
 
     return chips;
-  }, [searchQuery, selectedCategory, selectedOccasion, selectedMaterial, selectedPriceRange]);
+  }, [searchQuery, selectedCategory, selectedOccasion, selectedCollection, selectedMaterial, selectedPriceRange]);
 
   const handleClearAll = () => {
     setSearchQuery('');
     setSelectedCategory('all');
     setSelectedOccasion('all');
+    setSelectedCollection('all');
     setSelectedMaterial('all');
     setSelectedPriceRange('all');
     setSortBy('featured');
@@ -290,6 +324,7 @@ export function CatalogueView({
           <Search className="w-4 h-4 text-champagne-600 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
           <input
             type="text"
+            suppressHydrationWarning
             placeholder="Search by jewellery title, stone, material..."
             value={searchQuery}
             onChange={(e) => {
@@ -301,6 +336,7 @@ export function CatalogueView({
           {searchQuery && (
             <button
               type="button"
+              suppressHydrationWarning
               onClick={() => setSearchQuery('')}
               className="absolute right-3 top-1/2 -translate-y-1/2 text-charcoal-400 hover:text-charcoal-700 p-0.5"
               aria-label="Clear search"
@@ -329,6 +365,7 @@ export function CatalogueView({
             <div className="relative">
               <select
                 value={sortBy}
+                suppressHydrationWarning
                 onChange={(e) => setSortBy(e.target.value)}
                 className="appearance-none text-xs bg-white border border-ivory-300 rounded-sm pl-3 pr-8 py-2 text-charcoal-800 font-medium focus:outline-none focus:border-champagne-500 shadow-2xs cursor-pointer"
               >
@@ -347,12 +384,19 @@ export function CatalogueView({
       {/* 2. CATEGORY PILLS (Horizontal Scroll on Mobile) */}
       <div className="flex items-center gap-2 overflow-x-auto pb-2 scrollbar-none pt-1">
         {categories.map((cat) => {
-          const isSelected = selectedCategory === cat.value;
+          const isSelected =
+            selectedCategory === cat.value ||
+            (selectedCategory === 'bridal' && cat.value === 'bridal-sets') ||
+            (selectedCategory === 'necklaces' && cat.value === 'necklace-sets') ||
+            (selectedCategory === 'earrings' && cat.value === 'earrings-jhumkas') ||
+            ((selectedCategory === 'bracelets' || selectedCategory === 'bangles') &&
+              cat.value === 'bangles-bracelets');
           return (
             <motion.button
               key={cat.value}
               whileTap={{ scale: 0.96 }}
               type="button"
+              suppressHydrationWarning
               onClick={() => {
                 setSelectedCategory(cat.value);
                 setVisibleCount(8);
@@ -377,7 +421,7 @@ export function CatalogueView({
           mobileFilterOpen ? 'block' : 'hidden md:block'
         )}
       >
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           {/* Occasion Filter */}
           <div>
             <label className="block text-[10px] uppercase tracking-wider font-semibold text-charcoal-700 mb-1.5">
@@ -385,6 +429,7 @@ export function CatalogueView({
             </label>
             <select
               value={selectedOccasion}
+              suppressHydrationWarning
               onChange={(e) => {
                 setSelectedOccasion(e.target.value);
                 setVisibleCount(8);
@@ -399,6 +444,29 @@ export function CatalogueView({
             </select>
           </div>
 
+          {/* Collection Filter */}
+          <div>
+            <label className="block text-[10px] uppercase tracking-wider font-semibold text-charcoal-700 mb-1.5">
+              Collection
+            </label>
+            <select
+              value={selectedCollection}
+              suppressHydrationWarning
+              onChange={(e) => {
+                setSelectedCollection(e.target.value);
+                setVisibleCount(8);
+              }}
+              className="w-full text-xs px-3 py-2 bg-ivory-50 border border-ivory-300 rounded-sm text-charcoal-800 focus:outline-none focus:border-champagne-500"
+            >
+              <option value="all">All Collections</option>
+              <option value="Lumière Éternelle">Lumière Éternelle</option>
+              <option value="Imperial Sovereign">Imperial Sovereign</option>
+              <option value="Celestial Constellation">Celestial Constellation</option>
+              <option value="Nizam Trousseau">Nizam Trousseau</option>
+              <option value="Nocturne Solitaire">Nocturne Solitaire</option>
+            </select>
+          </div>
+
           {/* Material Filter */}
           <div>
             <label className="block text-[10px] uppercase tracking-wider font-semibold text-charcoal-700 mb-1.5">
@@ -406,6 +474,7 @@ export function CatalogueView({
             </label>
             <select
               value={selectedMaterial}
+              suppressHydrationWarning
               onChange={(e) => {
                 setSelectedMaterial(e.target.value);
                 setVisibleCount(8);
@@ -427,6 +496,7 @@ export function CatalogueView({
             </label>
             <select
               value={selectedPriceRange}
+              suppressHydrationWarning
               onChange={(e) => {
                 setSelectedPriceRange(e.target.value);
                 setVisibleCount(8);

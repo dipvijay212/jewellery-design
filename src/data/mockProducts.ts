@@ -540,7 +540,7 @@ export const mockProducts: Product[] = [
     popularity: 94,
     createdAt: '2026-08-04T10:00:00Z',
     images: [
-      'https://images.unsplash.com/photo-1611591475870-802c0199e1ee?auto=format&fit=crop&w=900&q=80',
+      'https://images.unsplash.com/photo-1617038260897-41a1f14a8ca0?auto=format&fit=crop&w=900&q=80',
       'https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?auto=format&fit=crop&w=900&q=80',
     ],
     sku: 'AUR-BNG-015-KD',
@@ -577,7 +577,7 @@ export const mockProducts: Product[] = [
     popularity: 86,
     createdAt: '2026-09-18T14:00:00Z',
     images: [
-      'https://images.unsplash.com/photo-1611591475870-802c0199e1ee?auto=format&fit=crop&w=900&q=80',
+      'https://images.unsplash.com/photo-1617038260897-41a1f14a8ca0?auto=format&fit=crop&w=900&q=80',
       'https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?auto=format&fit=crop&w=900&q=80',
     ],
     sku: 'AUR-BNG-016-CF',
@@ -613,7 +613,7 @@ export const mockProducts: Product[] = [
     popularity: 92,
     createdAt: '2026-07-20T11:00:00Z',
     images: [
-      'https://images.unsplash.com/photo-1611591475870-802c0199e1ee?auto=format&fit=crop&w=900&q=80',
+      'https://images.unsplash.com/photo-1617038260897-41a1f14a8ca0?auto=format&fit=crop&w=900&q=80',
       'https://images.unsplash.com/photo-1605100804763-247f67b3557e?auto=format&fit=crop&w=900&q=80',
     ],
     sku: 'AUR-BNG-017-TB',
@@ -724,7 +724,7 @@ export const mockProducts: Product[] = [
     popularity: 88,
     createdAt: '2026-07-28T16:00:00Z',
     images: [
-      'https://images.unsplash.com/photo-1611591475870-802c0199e1ee?auto=format&fit=crop&w=900&q=80',
+      'https://images.unsplash.com/photo-1617038260897-41a1f14a8ca0?auto=format&fit=crop&w=900&q=80',
       'https://images.unsplash.com/photo-1605100804763-247f67b3557e?auto=format&fit=crop&w=900&q=80',
     ],
     sku: 'AUR-ACC-020-HP',
@@ -870,7 +870,7 @@ export const mockProducts: Product[] = [
     popularity: 88,
     createdAt: '2026-09-24T12:00:00Z',
     images: [
-      'https://images.unsplash.com/photo-1611591475870-802c0199e1ee?auto=format&fit=crop&w=900&q=80',
+      'https://images.unsplash.com/photo-1617038260897-41a1f14a8ca0?auto=format&fit=crop&w=900&q=80',
       'https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?auto=format&fit=crop&w=900&q=80',
     ],
     sku: 'AUR-FST-024-EV',
@@ -906,7 +906,7 @@ export const mockProducts: Product[] = [
     popularity: 82,
     createdAt: '2026-07-15T09:00:00Z',
     images: [
-      'https://images.unsplash.com/photo-1611591475870-802c0199e1ee?auto=format&fit=crop&w=900&q=80',
+      'https://images.unsplash.com/photo-1617038260897-41a1f14a8ca0?auto=format&fit=crop&w=900&q=80',
       'https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?auto=format&fit=crop&w=900&q=80',
     ],
     sku: 'AUR-FST-025-MN',

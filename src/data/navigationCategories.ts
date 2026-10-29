@@ -195,7 +195,7 @@ export const navigationCategories: NavCategory[] = [
     description: 'Sculpted filigree kangans, openable kadas, and champagne line tennis bracelets',
     featuredPiece: {
       name: 'Kada-E-Shahi Antique Filigree Bangle Pair',
-      image: 'https://images.unsplash.com/photo-1611591475870-802c0199e1ee?auto=format&fit=crop&w=900&q=80',
+      image: 'https://images.unsplash.com/photo-1617038260897-41a1f14a8ca0?auto=format&fit=crop&w=900&q=80',
       price: 1620,
       href: '/shop/kada-e-shahi-antique-filigree-bangle-pair',
       tag: 'Imperial Sovereign',

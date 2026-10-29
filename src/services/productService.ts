@@ -70,6 +70,10 @@ class MockProductService implements IProductService {
             p.occasion === 'Festive & Celebrations' ||
             p.occasion === 'Cocktail & Reception')
         ) return true;
+        if (
+          targetCategory === 'high-jewellery' &&
+          (p.isFeatured || p.price >= 2000 || p.collection === 'Imperial Sovereign')
+        ) return true;
         return false;
       });
     }

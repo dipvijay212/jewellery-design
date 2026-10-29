@@ -25,6 +25,13 @@ interface ProductPageProps {
   }>;
 }
 
+export async function generateStaticParams() {
+  const products = await productService.getProducts();
+  return products.map((product) => ({
+    slug: product.slug,
+  }));
+}
+
 export default async function ProductDetailPage({ params }: ProductPageProps) {
   const { slug } = await params;
   const product = await productService.getProductBySlug(slug);
@@ -60,7 +67,13 @@ export default async function ProductDetailPage({ params }: ProductPageProps) {
           </Link>
           <ChevronRight className="w-3.5 h-3.5 text-charcoal-400 shrink-0" />
           <Link
-            href={`/shop?category=${product.category}`}
+            href={
+              product.category === 'bridal' ||
+              product.category === 'bridal-sets' ||
+              product.occasion === 'Bridal & Wedding'
+                ? '/shop?category=bridal-sets&section=bridal'
+                : `/shop?category=${product.category}`
+            }
             className="hover:text-champagne-700 transition-colors capitalize"
           >
             {product.category.replace(/-/g, ' ')}

@@ -47,7 +47,7 @@ export const mockCategories: Category[] = [
     slug: 'bangles-bracelets',
     subtitle: 'Sculpted Filigree & Kangans',
     description: 'Articulated kangans, temple gold bangles, and tennis bracelets.',
-    image: 'https://images.unsplash.com/photo-1611591475870-802c0199e1ee?auto=format&fit=crop&w=900&q=80',
+    image: 'https://images.unsplash.com/photo-1617038260897-41a1f14a8ca0?auto=format&fit=crop&w=900&q=80',
     itemCount: 5,
     featured: true,
   },

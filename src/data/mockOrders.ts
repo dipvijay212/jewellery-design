@@ -76,7 +76,7 @@ export const mockOrders: Order[] = [
         name: 'Champagne Pavé Line Tennis Bracelet',
         price: 11800,
         quantity: 1,
-        image: 'https://images.unsplash.com/photo-1611591475870-802c0199e1ee?auto=format&fit=crop&w=400&q=80',
+        image: 'https://images.unsplash.com/photo-1617038260897-41a1f14a8ca0?auto=format&fit=crop&w=400&q=80',
         metal: '18K Champagne Yellow Gold',
         size: '7.0 inch',
       },

@@ -39,7 +39,7 @@ export default async function BridalPage() {
                   <span>Book Bridal Consultation</span>
                 </Button>
               </Link>
-              <Link href="/shop?category=bridal">
+              <Link href="/shop?category=bridal-sets&section=bridal">
                 <Button
                   variant="ghost"
                   size="lg"
